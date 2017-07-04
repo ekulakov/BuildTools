@@ -170,6 +170,25 @@ function Install-Tools(
         -Version $version `
         -Architecture x64 `
         -InstallDir $installDir
+
+    try {
+        # installs KoreBuild.SdkResolver
+        # updates to this should be rare. But in the event it needs to change, we should invalidate the resolver with this file
+        $bundledResolverVersion = Get-Content (Join-Paths $PSScriptRoot ('..', 'tools', 'KoreBuild.SdkResolver', 'dotnet', 'version.txt')) -ErrorAction Ignore
+
+        if ($bundledResolverVersion) {
+            $resolversDir = Join-Paths $installDir ('sdk', $version, 'SdkResolvers', 'KoreBuild.SdkResolver')
+            $installedResolverVersion = Get-Content (Join-Path $resolversDir 'version.txt') -ErrorAction Ignore
+
+            if ($installedResolverVersion -ne $bundledResolverVersion) {
+                Write-Verbose "Installing KoreBuild SDK resolver $bundledResolverVersion into .NET Core SDK $version"
+                New-Item -ItemType Directory $resolversDir -ErrorAction Ignore | Out-Null
+                Copy-Item -Recurse (Join-Paths $PSScriptRoot ('..', 'tools', 'KoreBuild.SdkResolver', 'dotnet', '*')) $resolversDir
+            }
+        }
+    } catch {
+        Write-Warning "Failed to install the KoreBuild SDK resolver into $installDir."
+    }
 }
 
 function __install_shared_runtime($installScript, $installDir, [string] $version, [string] $channel) {

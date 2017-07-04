@@ -59,6 +59,14 @@
       Projects="$(RepositoryRoot)src\NuGetPackageVerifier.Task\NuGetPackageVerifier.Task.csproj"
       Properties="$(SolutionProperties);PublishDir=$(_KoreBuildIntermediateDir)modules\NuGetPackageVerifier\" />
 
+    <MSBuild Targets="Publish"
+      Projects="$(RepositoryRoot)sdk\KoreBuild.SdkResolver\KoreBuild.SdkResolver.csproj"
+      Properties="$(SolutionProperties);TargetFramework=netstandard2.0;PublishDir=$(_KoreBuildIntermediateDir)tools\KoreBuild.SdkResolver\dotnet" />
+
+    <MSBuild Targets="Publish"
+      Projects="$(RepositoryRoot)sdk\KoreBuild.SdkResolver\KoreBuild.SdkResolver.csproj"
+      Properties="$(SolutionProperties);TargetFramework=net46;PublishDir=$(_KoreBuildIntermediateDir)tools\KoreBuild.SdkResolver\visualstudio" />
+
     <ItemGroup>
       <KoreBuildFiles Include="$(_KoreBuildIntermediateDir)**\*" />
     </ItemGroup>

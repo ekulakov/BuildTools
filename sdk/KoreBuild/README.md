@@ -14,3 +14,4 @@ KoreBuild.sh                | Bash module for executing korebuild. (Should be `s
 config/                     | Contains configuration data.
 scripts/                    | Bash/PowerShell scripts
 modules/                    | Extensions to the KoreBuild lifecycle.
+msbuild/                    | MSBuild SDKs and resolvers.

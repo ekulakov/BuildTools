@@ -72,3 +72,13 @@ $__korebuild_dir/dotnet-install.sh \
     --architecture x64 \
     --channel $channel \
     --version $version
+
+if [ "${KOREBUILD_SKIP_SDK_RESOLVER_INSTALL:-}" != 'true' ]; then
+    resolvers_dir="$install_dir/sdk/$version/SdkResolvers/KoreBuild.SdkResolver"
+
+    if [ ! -d "$resolvers_dir"]; then
+        __verbose "Installing KoreBuild SDK resolver into .NET Core SDK $version"
+        mkdir -p $resolvers_dir
+        cp -R "$__korebuild_dir/tools/KoreBuild.SdkResolver/netstandard2.0/" "$resolvers_dir"
+    fi
+fi
